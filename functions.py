@@ -31,12 +31,12 @@ def calculate_dc_current_vector(matrix):
     # Defining expressions before I can use them
     x = sp.symbols('x'); cosine = sp.cos(x); sine = sp.sin(x)
     # Defining the components of the magnetic field and final vector, respectively
-    en = [cosine, sine, 1]
+    en = [cosine, sine, 0]
     vector_component_list = [0, 0, 0]
-    temp_i = 0
-    for j in range(0, 3):
-        for k in range(0, 3):
-            vector_component_list[j] += sp.simplify(en[j] * en[k] * matrix[temp_i][j][k])
-            if j == 2:
-                temp_i += 1
-    print(vector_component_list)
+
+    for i in range(0, 3):
+        for l in range(0, 3):
+            for m in range(0, 3):
+                vector_component_list[i] += sp.simplify(en[l] * en[m] * matrix[i][l][m])
+
+    print(vector_component_list.__str__())

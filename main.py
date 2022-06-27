@@ -9,8 +9,8 @@ untransformed tensor to see if it is the same)
 """
 
 # Change values and of the 3x6 here
-a = sp.exp('a'); b = sp.exp('b'); c = sp.exp('c')
-threeBySix = [[1, 1, 1, 1, a, 1], [1, 1, 1, b, 1, 1], [b, b, c, 1, 1, 1]]
+a = sp.exp('a'); b = sp.exp('b'); c = sp.exp('c'); d = sp.exp('d'); e = sp.exp('e')
+threeBySix = [[0, 0, 0, a, 0, 0], [0, 0, 0, 0, a, 0], [0, 0, 0, 0, 0, b]]
 
 # Placeholder values before changing them
 threeByThree = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
@@ -24,7 +24,7 @@ for i in range(0, 3):
         fns.adjust_value(i, j, threeByThree, threeBySix)
 
 fns.calculate_dc_current_vector(threeByThree)
-print(".")
+print(" ")
 
 # Printing the original and final matrix
 print('Original Matrix: ' + threeBySix.__str__())
