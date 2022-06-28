@@ -22,10 +22,6 @@ def adjust_value(i_index, j_index, three_by_three, three_by_six):
         three_by_three[i_index][1][0] = three_by_six[i_index][j_index]
         three_by_three[i_index][0][1] = three_by_six[i_index][j_index]
 
-# Get the matrix which has been converted
-# Define the list En
-# Perform double sum
-
 
 def calculate_dc_current_vector(matrix):
     # Defining expressions before I can use them
@@ -33,10 +29,10 @@ def calculate_dc_current_vector(matrix):
     # Defining the components of the magnetic field and final vector, respectively
     en = [cosine, sine, 0]
     vector_component_list = [0, 0, 0]
-
+    # Perform a triple sum with i, j and k of the tensor
     for i in range(0, 3):
-        for l in range(0, 3):
-            for m in range(0, 3):
-                vector_component_list[i] += sp.simplify(en[l] * en[m] * matrix[i][l][m])
+        for j in range(0, 3):
+            for k in range(0, 3):
+                vector_component_list[i] += sp.simplify(en[j] * en[k] * matrix[i][j][k])
 
     print(vector_component_list.__str__())
