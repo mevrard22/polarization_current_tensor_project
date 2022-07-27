@@ -10,5 +10,5 @@ l = []
 number = int(input("How many tensors would you like to enter?"))
 
 # Loop through whatever that number so user can enter all tensors they need calculations for
-for number in range (0, number):
+for number in range(0, number):
     l += [functions.enter_matrix()]
