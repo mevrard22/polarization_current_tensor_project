@@ -70,7 +70,7 @@ def calculate_dc_current_vector(matrix):
 
     print(vector_component_list.__str__())
 
-
+# TODO 3: Graph the DC current vectors using this function
 def graph_dc_current_vector():
     # Make a function which can graph the dc current vector components
     print()
