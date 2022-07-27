@@ -74,3 +74,5 @@ def calculate_dc_current_vector(matrix):
 def graph_dc_current_vector():
     # Make a function which can graph the dc current vector components
     print()
+
+# TODO 4: Make the tensor rotate given 3 euler angles
