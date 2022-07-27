@@ -3,7 +3,6 @@ import pyperclip as pc  # To copy and paste the final matrix when it has been pr
 import functions
 import sympy as sp
 
-
 # Define a list to put each tensor into
 l = []
 
