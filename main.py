@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sp
 
+# TODO: Get the a and b and stuff to work on the calculate dc current vector
+
 # Get the overall rotation matrix given the transformation the user wants
 rotation_matrix = fns.overall_rotation_matrix()
 print(rotation_matrix)
