@@ -1,11 +1,17 @@
 import sympy as sp  # Symbolic mathematics package
+import numpy as np
+
+'''
+Allows the user to enter a matrix via the console, in a 3x6 format, then converts it to a 3x3x3 tensor using the 
+adjust_value function, returns the final 3x3x3 matrix
+'''
 
 
 def enter_matrix():
     # Make a placeholder list with arbitrary elements so it's already formatted
     threeBySix = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
     threeByThree = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
-                    [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+                                                        [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
 
     print("Enter each value of the 3x6 matrix representation of your tensor, from "
           "right to left, top to bottom")
@@ -18,7 +24,7 @@ def enter_matrix():
             if temp == "0":
                 threeBySix[i][j] = 0
             else:
-                threeBySix[i][j] = sp.exp(temp)
+                threeBySix[i][j] = 1
 
     # Convert the 3x6 array to a 3x3 array
     # Loop through each row of the 3x6 matrix
@@ -32,10 +38,13 @@ def enter_matrix():
     return threeByThree
 
 
-# Adjust value will take in two indices (for the column and row of the 3x6 matrix)
-# , as well as a placeholder 3x3x3 matrix the 3x6 matrix which is to be converted
-# NOTE: these calculations currently only works for point groups where
-# jk → j if j=k, jk → 9-(j+k) if j≠k in the 3x6 matrix
+''' 
+Adjust value will take in two indices (for the column and row of the 3x6 matrix)
+, as well as a placeholder 3x3x3 matrix the 3x6 matrix which is to be converted
+NOTE: these calculations currently only works for point groups where
+jk → j if j=k, jk → 9-(j+k) if j≠k in the 3x6 matrix
+'''
+
 
 def adjust_value(i_index, j_index, three_by_three, three_by_six):
     # Handle cases where looking at first, second or third index of 3x6 matrix
@@ -54,7 +63,12 @@ def adjust_value(i_index, j_index, three_by_three, three_by_six):
         three_by_three[i_index][0][1] = three_by_six[i_index][j_index]
 
 
-def calculate_dc_current_vector(matrix):
+'''
+Take in a rank 3 tensor, execute tensor contraction and return the vector that results from the contraction.
+'''
+
+
+def calculate_dc_current_vector(tensor):
     # Defining expressions before I can use them
     x = sp.symbols('x');
     cosine = sp.cos(x);
@@ -66,13 +80,40 @@ def calculate_dc_current_vector(matrix):
     for i in range(0, 3):
         for j in range(0, 3):
             for k in range(0, 3):
-                vector_component_list[i] += sp.simplify(en[j] * en[k] * matrix[i][j][k])
+                vector_component_list[i] += sp.simplify(en[j] * en[k] * tensor[i][j][k])
 
     print(vector_component_list.__str__())
+
 
 # TODO 3: Graph the DC current vectors using this function
 def graph_dc_current_vector():
     # Make a function which can graph the dc current vector components
     print()
 
-# TODO 4: Make the tensor rotate given 3 euler angles
+
+# Change angles of the rotation of the x, y, and z matrices here.
+'''
+Take in a tensor, 
+'''
+
+
+def overall_rotation_matrix():
+    xrot = float(input("Input the rotation angle about the x axis (in degrees):"))
+    yrot = float(input("Input the rotation angle about the y axis (in degrees):"))
+    zrot = float(input("Input the rotation angle about the z axis (in degrees):"))
+    return np.matmul(mat("y", yrot), np.matmul(mat("x", xrot), mat("z", zrot)))
+
+
+# Retrieve the one of x, y, z rotation matrix and input an angle into it
+def mat(xyz, angle):
+    angle = np.radians(angle)
+    cosine = float(np.cos(angle))
+    sine = float(np.sin(angle))
+    if xyz == "x":
+        return np.array([[1, 0, 0], [0, cosine, -sine], [0, sine, cosine]])
+    elif xyz == "y":
+        return np.array([[cosine, 0, sine], [0, 1., 0], [-sine, 0, cosine]])
+    elif xyz == "z":
+        return sp.Matrix([[cosine, -sine, 0], [sine, cosine, 0], [0, 0, 1]])
+    else:
+        return "You didn't input a valid xyz value!"

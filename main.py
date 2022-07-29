@@ -1,19 +1,21 @@
 import pyperclip as pc  # To copy and paste the final matrix when it has been processed
 
-import functions
+import functions as fns
+import numpy as np
+import matplotlib.pyplot as plt
 import sympy as sp
 
-# Define a list to put each tensor into
-l = []
-
-# Find the number of tensors the user would like to enter
-number = int(input("How many tensors would you like to enter?"))
-
-# Loop through whatever that number so user can enter all tensors they need calculations for
-for number in range(0, number):
-    l += [functions.enter_matrix()]
+# Get the overall rotation matrix given the transformation the user wants
+rotation_matrix = fns.overall_rotation_matrix()
 
 # TODO 1: Graph the components of A tensors on a graph, with labels and a key
 
 
+# TODO 2: Graph both graphs as a subplot
+# x = np.arange(-4 * np.pi, 4 * np.pi, 0.1)
+# y = l[0][0][0]
+# plt.plot(x, y)
+# plt.show()
+
+# https://matplotlib.org/stable/gallery/subplots_axes_and_figures/subplot.html#sphx-glr-gallery-subplots-axes-and-figures-subplot-py
 # TODO 2: Graph the components of BOTH tensors on two seperate graphs, with labels and a key
