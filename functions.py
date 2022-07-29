@@ -63,8 +63,6 @@ def adjust_value(i_index, j_index, three_by_three, three_by_six):
     elif j_index == 5:
         three_by_three[i_index][1][0] = three_by_six[i_index][j_index]
         three_by_three[i_index][0][1] = three_by_six[i_index][j_index]
-    print(three_by_three)
-
 
 '''
 Take in a rank 3 tensor, execute tensor contraction and return the 
