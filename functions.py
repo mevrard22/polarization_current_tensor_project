@@ -1,3 +1,5 @@
+from typing import re
+
 import sympy as sp  # Symbolic mathematics package
 import numpy as np
 
@@ -61,6 +63,7 @@ def adjust_value(i_index, j_index, three_by_three, three_by_six):
     elif j_index == 5:
         three_by_three[i_index][1][0] = three_by_six[i_index][j_index]
         three_by_three[i_index][0][1] = three_by_six[i_index][j_index]
+    print(three_by_three)
 
 
 '''
@@ -133,14 +136,35 @@ rotates it and returns the rotated tensor
 
 def calculate_rotated_tensor(user_tensor, rm):
     temp = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
-             [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
-    for n in range(0, 3):
-        for m in range(0, 3):
-            for l in range(0, 3):
-                for i in range(0, 3):
-                    for j in range(0, 3):
-                        for k in range(0, 3):
-                            temp[n][m][l] = rm[k][n]*rm[j][m]*rm[i][l]*user_tensor[i][j][k]
+                                                [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+    for i in range(0, 3):
+        for j in range(0, 3):
+            for k in range(0, 3):
+                if abs(temp_tensor_contraction_fn(i, j, k, user_tensor, rm)) > 10 ** (-15):
+                    temp[i][j][k] = temp_tensor_contraction_fn(i, j, k, user_tensor, rm)
+                else:
+                    temp[i][j][k] = 0
+    return mathematica_format(temp.__str__())
 
-    print(temp)
-    return temp
+
+def temp_tensor_contraction_fn(i, j, k, tensor, rm):
+    sum = 0.
+    for l in range(0, 3):
+        for m in range(0, 3):
+            for n in range(0, 3):
+                sum += rm[l][i] * rm[m][j] * rm[n][k] * tensor[l][m][n]
+    return sum
+
+
+def mathematica_format(user_string):
+    templist = list(user_string)
+    for i in range(0, len(templist)):
+        if templist[i] == "[":
+            templist[i] = "{"
+        elif templist[i] == "]":
+            templist[i] = "}"
+    tempstr = ""
+    for j in range(0, len(templist)):
+        tempstr += templist[j]
+    return tempstr
+

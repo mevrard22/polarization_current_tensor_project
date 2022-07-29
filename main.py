@@ -1,5 +1,3 @@
-import pyperclip as pc  # To copy and paste the final matrix when it has been processed
-
 import functions as fns
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,26 +9,8 @@ print(rotation_matrix)
 
 # Get the user to input the structure of the tensor
 user_tensor = fns.enter_tensor()
-print(user_tensor)
 
 print(fns.calculate_rotated_tensor(user_tensor, rotation_matrix))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # TODO 1: Graph the components of A tensors on a graph, with labels and a key
 
