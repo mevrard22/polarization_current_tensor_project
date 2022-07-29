@@ -7,6 +7,28 @@ import sympy as sp
 
 # Get the overall rotation matrix given the transformation the user wants
 rotation_matrix = fns.overall_rotation_matrix()
+print(rotation_matrix)
+
+# Get the user to input the structure of the tensor
+user_tensor = fns.enter_tensor()
+print(user_tensor)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # TODO 1: Graph the components of A tensors on a graph, with labels and a key
 

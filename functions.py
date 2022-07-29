@@ -7,7 +7,7 @@ adjust_value function, returns the final 3x3x3 matrix
 '''
 
 
-def enter_matrix():
+def enter_tensor():
     # Make a placeholder list with arbitrary elements so it's already formatted
     threeBySix = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
     threeByThree = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
@@ -64,7 +64,8 @@ def adjust_value(i_index, j_index, three_by_three, three_by_six):
 
 
 '''
-Take in a rank 3 tensor, execute tensor contraction and return the vector that results from the contraction.
+Take in a rank 3 tensor, execute tensor contraction and return the 
+vector that results from the contraction.
 '''
 
 
@@ -104,7 +105,12 @@ def overall_rotation_matrix():
     return np.matmul(mat("y", yrot), np.matmul(mat("x", xrot), mat("z", zrot)))
 
 
-# Retrieve the one of x, y, z rotation matrix and input an angle into it
+"""
+Takes in a string which represents which rotation matrix (x, y or z) and a
+float which represents the angle the user would like to input into that rotation matrix
+"""
+
+
 def mat(xyz, angle):
     angle = np.radians(angle)
     cosine = float(np.cos(angle))
@@ -117,3 +123,13 @@ def mat(xyz, angle):
         return sp.Matrix([[cosine, -sine, 0], [sine, cosine, 0], [0, 0, 1]])
     else:
         return "You didn't input a valid xyz value!"
+
+
+"""
+Takes in a tensor which the user should have inputted through the enter_tensor method, 
+rotates it and returns the rotated tensor
+"""
+
+
+def calculate_rotated_tensor(tensor):
+    print()
