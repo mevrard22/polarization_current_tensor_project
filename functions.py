@@ -81,15 +81,12 @@ def calculate_dc_current_vector(tensor):
         for j in range(0, 3):
             for k in range(0, 3):
                 vector_component_list[i] += sp.simplify(en[j] * en[k] * tensor[i][j][k])
-
-    print(vector_component_list.__str__())
-
+    return vector_component_list
 
 # TODO 3: Graph the DC current vectors using this function
 def graph_dc_current_vector():
     # Make a function which can graph the dc current vector components
-    print()
-
+    return 0
 
 # Change angles of the rotation of the x, y, and z matrices here.
 '''
@@ -140,7 +137,7 @@ def calculate_rotated_tensor(user_tensor, rm):
                     temp[i][j][k] = temp_tensor_contraction_fn(i, j, k, user_tensor, rm)
                 else:
                     temp[i][j][k] = 0
-    return mathematica_format(temp.__str__())
+    return [mathematica_format(temp.__str__()), temp]
 
 
 def temp_tensor_contraction_fn(i, j, k, tensor, rm):

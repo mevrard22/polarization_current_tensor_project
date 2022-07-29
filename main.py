@@ -12,10 +12,11 @@ print(rotation_matrix)
 user_tensor = fns.enter_tensor()
 
 temp = fns.calculate_rotated_tensor(user_tensor, rotation_matrix)
-print(temp)
-pc.copy(temp)
+print(temp[0])
+pc.copy(temp[0])
 print('The above has been copied to clipboard')
 
+print(fns.calculate_dc_current_vector(temp[1]))
 # TODO 1: Graph the components of A tensors on a graph, with labels and a key
 
 # TODO 2: Graph both graphs as a subplot
