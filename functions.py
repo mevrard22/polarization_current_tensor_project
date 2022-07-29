@@ -1,5 +1,3 @@
-from typing import re
-
 import sympy as sp  # Symbolic mathematics package
 import numpy as np
 
