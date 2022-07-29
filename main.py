@@ -13,6 +13,8 @@ print(rotation_matrix)
 user_tensor = fns.enter_tensor()
 print(user_tensor)
 
+print(fns.calculate_rotated_tensor(user_tensor, rotation_matrix))
+
 
 
 

@@ -131,5 +131,16 @@ rotates it and returns the rotated tensor
 """
 
 
-def calculate_rotated_tensor(tensor):
-    print()
+def calculate_rotated_tensor(user_tensor, rm):
+    temp = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
+             [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+    for n in range(0, 3):
+        for m in range(0, 3):
+            for l in range(0, 3):
+                for i in range(0, 3):
+                    for j in range(0, 3):
+                        for k in range(0, 3):
+                            temp[n][m][l] = rm[k][n]*rm[j][m]*rm[i][l]*user_tensor[i][j][k]
+
+    print(temp)
+    return temp
