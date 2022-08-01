@@ -171,6 +171,13 @@ def mathematica_format(user_string):
             templist[i] = "{"
         elif templist[i] == "]":
             templist[i] = "}"
+        elif templist[i] == "e":
+            templist[i + 5] = ""
+            templist[i + 3] = ""
+            templist[i + 2] = ""
+            templist[i + 1] = ""
+            templist[i] = ""
+
     tempstr = ""
     for j in range(0, len(templist)):
         tempstr += templist[j]
