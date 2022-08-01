@@ -9,9 +9,9 @@ adjust_value function, returns the final 3x3x3 matrix
 
 def enter_tensor():
     # Make a placeholder list with arbitrary elements so it's already formatted
-    threeBySix = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
-    threeByThree = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
-                                                        [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+    threeBySix = [[0., 0., 0., 0., 0., 0.], [0., 0., 0., 0., 0., 0.], [0., 0., 0., 0., 0., 0.]]
+    threeByThree = [[[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.],
+                    [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]]
 
     print("Enter each value of the 3x6 matrix representation of your tensor, from "
           "right to left, top to bottom")
@@ -22,7 +22,7 @@ def enter_tensor():
             temp = input("Enter input for Column " + str(i + 1) + ", Row " + str(j + 1) + ":")
             # Adding the input to list
             if temp == "0":
-                threeBySix[i][j] = 0
+                threeBySix[i][j] = 0.
             else:
                 threeBySix[i][j] = sp.exp(temp)
 
@@ -33,7 +33,8 @@ def enter_tensor():
         for j in range(0, 6):
             # Function to change the values accordingly
             adjust_value(i, j, threeByThree, threeBySix)
-
+    # This is def not the issue, the two transformed matrices are the same.
+    print("\n 3x6 as 3x3x3 Tensor: \n" + threeByThree.__str__())
     # Returning the properly formatted array
     return threeByThree
 
@@ -74,8 +75,8 @@ def calculate_dc_current_vector(tensor):
     cosine = sp.cos(x)
     sine = sp.sin(x)
     # Defining the components of the magnetic field and final vector, respectively
-    en = [cosine, sine, 0]
-    vector_component_list = [0, 0, 0]
+    en = [cosine, sine, 0.]
+    vector_component_list = [0., 0., 0.]
     # Perform a triple sum with i, j and k of the tensor
     for i in range(0, 3):
         for j in range(0, 3):
@@ -88,12 +89,13 @@ def graph_dc_current_vector():
     # Make a function which can graph the dc current vector components
     return 0
 
-# Change angles of the rotation of the x, y, and z matrices here.
 '''
-Take in a tensor, 
+Take in 3 values of x, y and z rotation in console, use function mat to get the correct 
+rotation matrix for xyz and calculate the rotation matrix at the given angle for xyz, 
+then multiply them together and return the overall rotation matrix.
 '''
 
-
+# This is not the issue, it is working exactly as mathematica is.
 def overall_rotation_matrix():
     xrot = float(input("Input the rotation angle about the x axis (in degrees):"))
     yrot = float(input("Input the rotation angle about the y axis (in degrees):"))
@@ -112,11 +114,11 @@ def mat(xyz, angle):
     cosine = float(np.cos(angle))
     sine = float(np.sin(angle))
     if xyz == "x":
-        return np.array([[1, 0, 0], [0, cosine, -sine], [0, sine, cosine]])
+        return np.array([[1., 0., 0.], [0., cosine, -sine], [0., sine, cosine]])
     elif xyz == "y":
-        return np.array([[cosine, 0, sine], [0, 1., 0], [-sine, 0, cosine]])
+        return np.array([[cosine, 0., sine], [0., 1., 0.], [-sine, 0., cosine]])
     elif xyz == "z":
-        return sp.Matrix([[cosine, -sine, 0], [sine, cosine, 0], [0, 0, 1]])
+        return sp.Matrix([[cosine, -sine, 0.], [sine, cosine, 0.], [0., 0., 1.]])
     else:
         return "You didn't input a valid xyz value!"
 
@@ -128,8 +130,8 @@ rotates it and returns the rotated tensor
 
 
 def calculate_rotated_tensor(user_tensor, rm):
-    temp = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
-                                                [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+    temp = [[[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.],
+            [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]]
     for i in range(0, 3):
         for j in range(0, 3):
             for k in range(0, 3):
