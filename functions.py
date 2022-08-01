@@ -147,8 +147,9 @@ def temp_tensor_contraction_fn(i, j, k, tensor, rm):
     for l in range(0, 3):
         for m in range(0, 3):
             for n in range(0, 3):
-                if rm[l][i] * rm[m][j] * rm[n][k] > 10 ** (-15):
-                    temp_sum += rm[l][i] * rm[m][j] * rm[n][k] * tensor[l][m][n]
+                #TODO: why is it still giving me small values if i have this?
+                if abs(rm[i][l] * rm[j][m] * rm[k][n]) > (10 ** (-15)):
+                    temp_sum += rm[i][l] * rm[j][m] * rm[k][n] * tensor[l][m][n]
     return temp_sum
 
 
