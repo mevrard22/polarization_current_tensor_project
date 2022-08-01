@@ -9,10 +9,9 @@ adjust_value function, returns the final 3x3x3 matrix
 
 def enter_tensor():
     # Make a placeholder list with arbitrary elements so it's already formatted
-    threeBySix = [[0., 0., 0., 0., 0., 0.], [0., 0., 0., 0., 0., 0.], [0., 0., 0., 0., 0., 0.]]
-    threeByThree = [[[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.],
-                                                                 [0., 0., 0.], [0., 0., 0.]],
-                    [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]]
+    threeBySix = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
+    threeByThree = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
+    [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
 
     print("Enter each value of the 3x6 matrix representation of your tensor, from "
           "right to left, top to bottom")
@@ -23,7 +22,7 @@ def enter_tensor():
             temp = input("Enter input for Column " + str(i + 1) + ", Row " + str(j + 1) + ":")
             # Adding the input to list
             if temp == "0":
-                threeBySix[i][j] = 0.
+                threeBySix[i][j] = 0
             else:
                 threeBySix[i][j] = sp.exp(temp)
 
@@ -119,11 +118,11 @@ def mat(xyz, angle):
     cosine = float(np.cos(angle))
     sine = float(np.sin(angle))
     if xyz == "x":
-        return np.array([[1., 0., 0.], [0., cosine, -sine], [0., sine, cosine]])
+        return np.array([[1, 0, 0], [0, cosine, -sine], [0, sine, cosine]])
     elif xyz == "y":
-        return np.array([[cosine, 0., sine], [0., 1., 0.], [-sine, 0., cosine]])
+        return np.array([[cosine, 0, sine], [0, 1, 0], [-sine, 0, cosine]])
     elif xyz == "z":
-        return sp.Matrix([[cosine, -sine, 0.], [sine, cosine, 0.], [0., 0., 1.]])
+        return sp.Matrix([[cosine, -sine, 0], [sine, cosine, 0], [0, 0, 1]])
     else:
         return "You didn't input a valid xyz value!"
 
@@ -135,16 +134,12 @@ rotates it and returns the rotated tensor
 
 
 def calculate_rotated_tensor(user_tensor, rm):
-    temp = [[[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.],
-                                                         [0., 0., 0.], [0., 0., 0.]],
-            [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]]
+    temp = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
+            [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
     for i in range(0, 3):
         for j in range(0, 3):
             for k in range(0, 3):
-                # if abs(temp_tensor_contraction_fn(i, j, k, user_tensor, rm)) > 10 ** (-15):
                 temp[i][j][k] = temp_tensor_contraction_fn(i, j, k, user_tensor, rm)
-                # else:
-                #      temp[i][j][k] = 0
     return [mathematica_format(temp.__str__()), temp]
 
 
@@ -160,8 +155,9 @@ def temp_tensor_contraction_fn(i, j, k, tensor, rm):
         for m in range(0, 3):
             for n in range(0, 3):
                 # TODO: why is it still giving me small values if i have this?
-                if abs(rm[i][l] * rm[j][m] * rm[k][n]) > (10 ** (-15)):
-                    temp_sum += rm[i][l] * rm[j][m] * rm[k][n] * tensor[l][m][n]
+                numberPart = round(rm[i][l] * rm[j][m] * rm[k][n], 10)
+                bothTogether = numberPart * tensor[l][m][n]
+                temp_sum += bothTogether
     return temp_sum
 
 """
