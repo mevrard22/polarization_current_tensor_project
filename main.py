@@ -7,7 +7,7 @@ import sympy as sp
 # TODO: Get the a and b and stuff to work on the calculate dc current vector
 
 # Get the overall rotation matrix given the transformation the user wants
-rotation_matrix = fns.overall_rotation_matrix()
+rotation_matrix = fns.calculate_overall_rotation_matrix()
 print("\n Rotation Matrix: \n" + rotation_matrix.__str__() + "\n")
 
 # Get the user to input the structure of the tensor

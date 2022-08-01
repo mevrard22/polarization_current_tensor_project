@@ -8,14 +8,14 @@ adjust_value function, returns the final 3x3x3 matrix
 
 
 def enter_tensor():
-    # Make a placeholder list with arbitrary elements so it's already formatted
+    # Make a placeholder list with arbitrary elements, so it's already formatted
     threeBySix = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
     threeByThree = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
-    [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+                                                        [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
 
     print("Enter each value of the 3x6 matrix representation of your tensor, from "
           "right to left, top to bottom")
-    # Go through each element in the 3x6 matrix, as decribed above
+    # Go through each element in the 3x6 matrix, as described above
     for i in range(0, 3):
         for j in range(0, 6):
             # Getting input from the user while telling them which row / column they should enter
@@ -72,11 +72,9 @@ vector that results from the contraction.
 def calculate_dc_current_vector(tensor):
     # Defining expressions before I can use them
     x = sp.symbols('x')
-    cosine = sp.cos(x)
-    sine = sp.sin(x)
+    cosine = sp.cos(x); sine = sp.sin(x)
     # Defining the components of the magnetic field and final vector, respectively
-    en = [cosine, sine, 0.]
-    vector_component_list = [0., 0., 0.]
+    en = [cosine, sine, 0.]; vector_component_list = [0., 0., 0.]
     # Perform a triple sum with i, j and k of the tensor
     for i in range(0, 3):
         for j in range(0, 3):
@@ -98,11 +96,11 @@ then multiply them together and return the overall rotation matrix.
 '''
 
 
-def overall_rotation_matrix():
+def calculate_overall_rotation_matrix():
     xrot = float(input("Input the rotation angle about the x axis (in degrees):"))
     yrot = float(input("Input the rotation angle about the y axis (in degrees):"))
     zrot = float(input("Input the rotation angle about the z axis (in degrees):"))
-    return np.matmul(mat("y", yrot), np.matmul(mat("x", xrot), mat("z", zrot)))
+    return np.matmul(return_rotation_matrix("y", yrot), np.matmul(return_rotation_matrix("x", xrot), return_rotation_matrix("z", zrot)))
 
 
 """
@@ -111,15 +109,15 @@ float which represents the angle the user would like to input into that rotation
 """
 
 
-def mat(xyz, angle):
+def return_rotation_matrix(axes, angle):
     angle = np.radians(angle)
     cosine = float(np.cos(angle))
     sine = float(np.sin(angle))
-    if xyz == "x":
+    if axes == "x":
         return np.array([[1, 0, 0], [0, cosine, -sine], [0, sine, cosine]])
-    elif xyz == "y":
+    elif axes == "y":
         return np.array([[cosine, 0, sine], [0, 1, 0], [-sine, 0, cosine]])
-    elif xyz == "z":
+    elif axes == "z":
         return sp.Matrix([[cosine, -sine, 0], [sine, cosine, 0], [0, 0, 1]])
     else:
         return "You didn't input a valid xyz value!"
@@ -132,13 +130,13 @@ rotates it and returns the rotated tensor
 
 
 def calculate_rotated_tensor(user_tensor, rm):
-    temp = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
-            [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+    tempTensor = [[[0, 0, 0], [0, 0, 0], [0, 0, 0]], [[0, 0, 0],
+                                                [0, 0, 0], [0, 0, 0]], [[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
     for i in range(0, 3):
         for j in range(0, 3):
             for k in range(0, 3):
-                temp[i][j][k] = temp_tensor_contraction_fn(i, j, k, user_tensor, rm)
-    return [mathematica_format(temp.__str__()), temp]
+                tempTensor[i][j][k] = tensor_contraction_fn(i, j, k, user_tensor, rm)
+    return [mathematica_format(tempTensor.__str__()), tempTensor]
 
 
 """
@@ -147,16 +145,16 @@ and it would be too messy.
 """
 
 
-def temp_tensor_contraction_fn(i, j, k, tensor, rm):
-    temp_sum = 0.
+def tensor_contraction_fn(i, j, k, tensor, rm):
+    tempSum = 0.
     for l in range(0, 3):
         for m in range(0, 3):
             for n in range(0, 3):
-                # TODO: why is it still giving me small values if i have this?
                 numberPart = round(rm[i][l] * rm[j][m] * rm[k][n], 10)
                 bothTogether = numberPart * tensor[l][m][n]
-                temp_sum += bothTogether
-    return temp_sum
+                tempSum += bothTogether
+    return tempSum
+
 
 """
 Convert a string (usually, tensor or matrix) to be in a format suitable for use as a 
@@ -164,21 +162,28 @@ matrix/tensor with mathematica (how it works is self explanatory)
 """
 
 
-def mathematica_format(user_string):
-    templist = list(user_string)
-    for i in range(0, len(templist)):
-        if templist[i] == "[":
-            templist[i] = "{"
-        elif templist[i] == "]":
-            templist[i] = "}"
-        elif templist[i] == "e":
-            templist[i + 5] = ""
-            templist[i + 3] = ""
-            templist[i + 2] = ""
-            templist[i + 1] = ""
-            templist[i] = ""
-
-    tempstr = ""
-    for j in range(0, len(templist)):
-        tempstr += templist[j]
-    return tempstr
+def mathematica_format(string):
+    tempList = list(string)
+    for i in range(0, len(tempList)):
+        if tempList[i] == "[":
+            tempList[i] = "{"
+        elif tempList[i] == "]":
+            tempList[i] = "}"
+        elif tempList[i] == "e":
+            tempList[i + 5] = ""
+            tempList[i + 3] = ""
+            tempList[i + 2] = ""
+            tempList[i + 1] = ""
+            tempList[i] = ""
+        elif tempList[i] == "s" and tempList[i + 1] == "i":
+            tempList[i] = "S"
+        elif tempList[i] == "c" and tempList[i + 1] == "o":
+            tempList[i] = "C"
+        elif tempList[i] == "*" and tempList[i + 1] == "*":
+            tempList[i] = "^"
+            tempList[i + 1] = ""
+        # TODO: Figure out how to change () to [] and also not make S of cos capitalized and also turn ** into power
+    tempStr = ""
+    for j in range(0, len(tempList)):
+        tempStr += tempList[j]
+    return tempStr
