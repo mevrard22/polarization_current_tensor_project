@@ -33,7 +33,6 @@ def enter_tensor():
         for j in range(0, 6):
             # Function to change the values accordingly
             adjust_value(i, j, threeByThree, threeBySix)
-    # This is def not the issue, the two transformed matrices are the same.
     print("\n 3x6 as 3x3x3 Tensor: \n" + threeByThree.__str__())
     # Returning the properly formatted array
     return threeByThree
@@ -99,7 +98,6 @@ then multiply them together and return the overall rotation matrix.
 '''
 
 
-# This is not the issue, it is working exactly as mathematica is.
 def overall_rotation_matrix():
     xrot = float(input("Input the rotation angle about the x axis (in degrees):"))
     yrot = float(input("Input the rotation angle about the y axis (in degrees):"))
