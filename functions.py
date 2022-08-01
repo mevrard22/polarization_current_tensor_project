@@ -1,5 +1,5 @@
 import sympy as sp  # Symbolic mathematics package
-import numpy as np
+import numpy as np  # Allow me to do math package
 
 '''
 Allows the user to enter a matrix via the console, in a 3x6 format, then converts it to a 3x3x3 tensor using the 
@@ -11,7 +11,8 @@ def enter_tensor():
     # Make a placeholder list with arbitrary elements so it's already formatted
     threeBySix = [[0., 0., 0., 0., 0., 0.], [0., 0., 0., 0., 0., 0.], [0., 0., 0., 0., 0., 0.]]
     threeByThree = [[[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.],
-                    [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]]
+                                                                 [0., 0., 0.], [0., 0., 0.]],
+                    [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]]
 
     print("Enter each value of the 3x6 matrix representation of your tensor, from "
           "right to left, top to bottom")
@@ -63,6 +64,7 @@ def adjust_value(i_index, j_index, three_by_three, three_by_six):
         three_by_three[i_index][1][0] = three_by_six[i_index][j_index]
         three_by_three[i_index][0][1] = three_by_six[i_index][j_index]
 
+
 '''
 Take in a rank 3 tensor, execute tensor contraction and return the 
 vector that results from the contraction.
@@ -84,16 +86,19 @@ def calculate_dc_current_vector(tensor):
                 vector_component_list[i] += sp.simplify(en[j] * en[k] * tensor[i][j][k])
     return vector_component_list
 
+
 # TODO 3: Graph the DC current vectors using this function
 def graph_dc_current_vector():
     # Make a function which can graph the dc current vector components
     return 0
+
 
 '''
 Take in 3 values of x, y and z rotation in console, use function mat to get the correct 
 rotation matrix for xyz and calculate the rotation matrix at the given angle for xyz, 
 then multiply them together and return the overall rotation matrix.
 '''
+
 
 # This is not the issue, it is working exactly as mathematica is.
 def overall_rotation_matrix():
@@ -131,7 +136,8 @@ rotates it and returns the rotated tensor
 
 def calculate_rotated_tensor(user_tensor, rm):
     temp = [[[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.],
-            [0., 0., 0.], [0., 0., 0.]], [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]]
+                                                         [0., 0., 0.], [0., 0., 0.]],
+            [[0., 0., 0.], [0., 0., 0.], [0., 0., 0.]]]
     for i in range(0, 3):
         for j in range(0, 3):
             for k in range(0, 3):
@@ -142,15 +148,26 @@ def calculate_rotated_tensor(user_tensor, rm):
     return [mathematica_format(temp.__str__()), temp]
 
 
+"""
+This function is used to do a tensor contraction; otherwise it would be 6 different loops
+and it would be too messy.
+"""
+
+
 def temp_tensor_contraction_fn(i, j, k, tensor, rm):
     temp_sum = 0.
     for l in range(0, 3):
         for m in range(0, 3):
             for n in range(0, 3):
-                #TODO: why is it still giving me small values if i have this?
+                # TODO: why is it still giving me small values if i have this?
                 if abs(rm[i][l] * rm[j][m] * rm[k][n]) > (10 ** (-15)):
                     temp_sum += rm[i][l] * rm[j][m] * rm[k][n] * tensor[l][m][n]
     return temp_sum
+
+"""
+Convert a string (usually, tensor or matrix) to be in a format suitable for use as a 
+matrix/tensor with mathematica (how it works is self explanatory)
+"""
 
 
 def mathematica_format(user_string):
@@ -164,4 +181,3 @@ def mathematica_format(user_string):
     for j in range(0, len(templist)):
         tempstr += templist[j]
     return tempstr
-
