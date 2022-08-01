@@ -24,7 +24,7 @@ def enter_tensor():
             if temp == "0":
                 threeBySix[i][j] = 0
             else:
-                threeBySix[i][j] = 1
+                threeBySix[i][j] = sp.exp(temp)
 
     # Convert the 3x6 array to a 3x3 array
     # Loop through each row of the 3x6 matrix
@@ -70,8 +70,8 @@ vector that results from the contraction.
 
 def calculate_dc_current_vector(tensor):
     # Defining expressions before I can use them
-    x = sp.symbols('x');
-    cosine = sp.cos(x);
+    x = sp.symbols('x')
+    cosine = sp.cos(x)
     sine = sp.sin(x)
     # Defining the components of the magnetic field and final vector, respectively
     en = [cosine, sine, 0]
@@ -133,20 +133,21 @@ def calculate_rotated_tensor(user_tensor, rm):
     for i in range(0, 3):
         for j in range(0, 3):
             for k in range(0, 3):
-                if abs(temp_tensor_contraction_fn(i, j, k, user_tensor, rm)) > 10 ** (-15):
-                    temp[i][j][k] = temp_tensor_contraction_fn(i, j, k, user_tensor, rm)
-                else:
-                    temp[i][j][k] = 0
+                # if abs(temp_tensor_contraction_fn(i, j, k, user_tensor, rm)) > 10 ** (-15):
+                temp[i][j][k] = temp_tensor_contraction_fn(i, j, k, user_tensor, rm)
+                # else:
+                #      temp[i][j][k] = 0
     return [mathematica_format(temp.__str__()), temp]
 
 
 def temp_tensor_contraction_fn(i, j, k, tensor, rm):
-    sum = 0.
+    temp_sum = 0.
     for l in range(0, 3):
         for m in range(0, 3):
             for n in range(0, 3):
-                sum += rm[l][i] * rm[m][j] * rm[n][k] * tensor[l][m][n]
-    return sum
+                if rm[l][i] * rm[m][j] * rm[n][k] > 10 ** (-15):
+                    temp_sum += rm[l][i] * rm[m][j] * rm[n][k] * tensor[l][m][n]
+    return temp_sum
 
 
 def mathematica_format(user_string):

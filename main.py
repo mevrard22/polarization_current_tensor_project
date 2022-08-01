@@ -8,17 +8,17 @@ import sympy as sp
 
 # Get the overall rotation matrix given the transformation the user wants
 rotation_matrix = fns.overall_rotation_matrix()
-print(rotation_matrix)
+print("\n Rotation Matrix: \n" + rotation_matrix.__str__() + "\n")
 
 # Get the user to input the structure of the tensor
 user_tensor = fns.enter_tensor()
 
 temp = fns.calculate_rotated_tensor(user_tensor, rotation_matrix)
-print(temp[0])
+print("\n Rotated tensor: " + temp[0].__str__() + "\n")
 pc.copy(temp[0])
 print('The above has been copied to clipboard')
 
-print(fns.calculate_dc_current_vector(temp[1]))
+print("\n DC Current Vector: " + fns.calculate_dc_current_vector(temp[1]).__str__())
 # TODO 1: Graph the components of A tensors on a graph, with labels and a key
 
 # TODO 2: Graph both graphs as a subplot
